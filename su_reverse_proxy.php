@@ -6,7 +6,7 @@ Version: 1.0
 Author: Marco Wise
 Author URI: http://www.stanford.edu/dept/its/
 
-Copyright (c) 2007, 2008, 2009, Board of Trustees, Leland Stanford Jr. University.
+Copyright (c) 2007-2011 Board of Trustees, Leland Stanford Jr. University.
 All rights reserved.
  
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -25,8 +25,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 remove_filter('template_redirect', 'redirect_canonical');
 
 # Strip out extraneous path information from REQUEST_URI
-$su_rewritebase = $_SERVER['SCRIPT_NAME'];
-$su_rewritebase = preg_replace('/\/(?:wp\-admin\/)?[-\w]*\.php$/', '', $su_rewritebase);
-$pattern = preg_replace('/\//', '\/', $su_rewritebase);
-$_SERVER['REQUEST_URI'] = preg_replace("/$pattern/", '', $_SERVER['REQUEST_URI']);
+# but only if page is requested from a reverse proxy
+if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+  $su_rewritebase = $_SERVER['SCRIPT_NAME'];
+  $su_rewritebase = preg_replace('/\/(?:wp\-admin\/)?[-\w]*\.php$/', '', $su_rewritebase);
+  $pattern = preg_replace('/\//', '\/', $su_rewritebase);
+  $_SERVER['REQUEST_URI'] = preg_replace("/$pattern/", '', $_SERVER['REQUEST_URI']);
+}
 ?>
