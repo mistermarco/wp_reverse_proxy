@@ -2,7 +2,7 @@
 /* 
 Plugin Name: Stanford Reverse Proxy
 Description: Turn this on after you set up this blog to work with a reverse proxy.
-Version: 1.0 
+Version: 1.1 
 Author: Marco Wise
 Author URI: http://www.stanford.edu/dept/its/
 
